@@ -1,4 +1,4 @@
-import {Text,View,StyleSheet,Alert, FlatList} from 'react-native';
+import {Text,View,StyleSheet,Alert, FlatList, useWindowDimensions} from 'react-native';
 import Title from '../components/game/ui/Title'
 import { useState ,useEffect} from 'react';
 import {Ionicons} from "@expo/vector-icons"
@@ -59,12 +59,10 @@ function GameScreen({userNumber,onGameOver}){
     }
 
     const guessRoundsListLength=guessRounds.length
-
-
-    return (
-        <View style={styles.screen}>
-            <Title>Opponent's Guess</Title>
-            <NumberContainer>{currentGuess}</NumberContainer>
+    const {width,height}=useWindowDimensions()
+    let content=(
+    <>
+        <NumberContainer>{currentGuess}</NumberContainer>
             <Card>
                 <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
                 <View style={styles.buttonsContainer}>
@@ -79,6 +77,33 @@ function GameScreen({userNumber,onGameOver}){
                     </View>
                 </View>
             </Card>
+    </>)
+
+    if(width >500){
+        content=(
+            <>
+                
+                 <View style={styles.buttonContainerWide}>
+                    <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={() => nextGuessHandler('lower')}>
+                    <MaterialIcons name="remove" size={24} color="white" />
+                    </PrimaryButton>
+                    </View>
+                <NumberContainer>{currentGuess}</NumberContainer>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={() => nextGuessHandler('greater')}>
+                    <Ionicons name="add-sharp" size={24} color="white" />
+                    </PrimaryButton>
+                    </View>
+                    </View>
+            </>
+        )
+    }
+
+    return (
+        <View style={styles.screen}>
+            <Title>Opponent's Guess</Title>
+            {content}
             <View style={styles.listContainer}>
                 {/*{guessRounds.map(guessRound=><Text key={guessRound}>{guessRounds}</Text>)}*/}
              <FlatList data={guessRounds} renderItem={(itemData)=>
@@ -95,7 +120,8 @@ export default GameScreen
 const styles= StyleSheet.create({
     screen:{
         flex:1,
-        padding:40,
+        padding:24,
+        alignItems:'center'
     },
     instructionText:{
         marginBottom:12,
@@ -109,5 +135,9 @@ const styles= StyleSheet.create({
     listContainer:{
         flex:1,
         padding:16
+    },
+    buttonContainerWide:{
+        flexDirection:'row',
+        alignItems:'center'
     }
 })

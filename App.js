@@ -4,6 +4,7 @@ import GameScreen from './screens/GameScreen';
 import GameOverScreen from "./screens/GameOverScreen"
 import { LinearGradient } from "expo-linear-gradient"
 import StartGameScreen from './screens/StartGameScreen';
+import {StatusBar} from 'expo-status-bar'
 //import {useFonts} from 'expo-font';
 //import {AppLoading} from 'expo-app-loading';
 
@@ -48,6 +49,8 @@ if(gameIsOver && userNumber){
 }
  
   return (
+    <>
+    <StatusBar style="light"/>
     <LinearGradient colors={['#4e0329','#ddb52f']} style={styles.rootScreen}>
       <ImageBackground 
       imageStyle={styles.backgroundImage} 
@@ -56,6 +59,7 @@ if(gameIsOver && userNumber){
       <SafeAreaView style={styles.rootScreen} >{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
+    </>
   );
 }
 
